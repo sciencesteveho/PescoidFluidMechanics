@@ -1,6 +1,13 @@
 # Pescoid Fluid Dynamics
 Tools to plot and analyze wetting and dewetting fluid dynamics in zebrafish early embronic stem cell pescoids.
-&nbsp;
+
+<br>
+
+## Installation
+```sh
+git clone https://github.com/sciencesteveho/PescoidFluidMechanics.git
+```
+<br>
 
 ## Dependencies
 Install via `pip install -r requirements.txt`
@@ -9,7 +16,7 @@ matplotlib==3.5.2
 scipy==1.13.0
 seaborn==0.11.2
 ```
-&nbsp;
+<br>
 
 ## Usage
 
@@ -48,7 +55,7 @@ seaborn==0.11.2
 ```
 
 
-&nbsp;
+<br>
 
 ### Arguments:
 | Parameter     |       | Description                           |
