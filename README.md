@@ -34,7 +34,7 @@ seaborn==0.11.2
 
     # Plot the pescoid's smoothed area over time with a vertical line to indicate
     wetting/dewetting phase
-    dewetvizobj.plot_area(smooth=True, phased=True)
+    dewetvizobj.plot_area(smoothed=True, phased=True)
 
     # Plot the rate of the change in pescoid area over time
     dewetvizobj.plot_rate_of_change(smoothed=True)

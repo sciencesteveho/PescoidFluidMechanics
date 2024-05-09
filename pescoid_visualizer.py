@@ -1,4 +1,3 @@
-# sourcery skip: do-not-use-staticmethod
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -14,6 +13,16 @@ import pandas as pd
 from scipy.signal import find_peaks  # type: ignore
 from scipy.signal import savgol_filter  # type: ignore
 import seaborn as sns  # type: ignore
+
+
+def _lineplot(xlabel_text: str, ylabel_text: str, title_text: str) -> None:
+    """Plot a line plot with the provided labels and title."""
+    plt.xlabel(xlabel_text)
+    plt.ylabel(ylabel_text)
+    plt.title(title_text)
+    plt.margins(x=0)
+    plt.show()
+    plt.clf()
 
 
 class PescoidVisualizer:
@@ -65,7 +74,7 @@ class PescoidVisualizer:
 
     Plot the pescoid's smoothed area over time with a vertical line to indicate
     wetting/dewetting phase
-    >>> dewetvizobj.plot_area(smooth=True, phased=True)
+    >>> dewetvizobj.plot_area(smoothed=True, phased=True)
 
     Plot the rate of the change in pescoid area over time
     >>> dewetvizobj.plot_rate_of_change(smoothed=True)
@@ -204,7 +213,7 @@ class PescoidVisualizer:
         except AttributeError:
             print("Change point not found, run phase_area_curve first")
 
-        self._lineplot(
+        _lineplot(
             xlabel_text="Time (frames)",
             ylabel_text="Rate of change (nm^2/s)",
             title_text=title_text,
@@ -257,7 +266,7 @@ class PescoidVisualizer:
         if baseline:
             plt.axhline(y=self._get_baseline_size(), color="gray", linestyle="dashed")
 
-        self._lineplot(
+        _lineplot(
             xlabel_text="Time (frames)",
             ylabel_text="Area (nm^2)",
             title_text=title_text,
@@ -351,15 +360,5 @@ class PescoidVisualizer:
         fig.supxlabel("Time (frames)")
         fig.supylabel("Velocity (nm/s)")
         fig.suptitle("Edge velocities at multiple indexes")
-        plt.show()
-        plt.clf()
-
-    @staticmethod
-    def _lineplot(xlabel_text: str, ylabel_text: str, title_text: str) -> None:
-        """Plot a line plot with the provided labels and title."""
-        plt.xlabel(xlabel_text)
-        plt.ylabel(ylabel_text)
-        plt.title(title_text)
-        plt.margins(x=0)
         plt.show()
         plt.clf()
