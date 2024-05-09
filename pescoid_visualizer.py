@@ -6,7 +6,7 @@
 """Code to handle pescoid wetting/dewetting visualization."""
 
 
-from typing import List
+from typing import List, Union
 
 import matplotlib.pyplot as plt  # type: ignore
 import numpy as np
@@ -78,15 +78,20 @@ class PescoidVisualizer:
     >>> dewetvizobj.plot_multiple_line_velocities(indexes=[0, 1, 2])
     """
 
-    def __init__(self, velocities_file: str, area_file: str) -> None:
+    def __init__(
+        self, area_file: str, velocities_file: Union[str, None] = None
+    ) -> None:
         """Initialize the class"""
         # load data into dataframes
-        self.velocities = pd.read_csv(
-            velocities_file, delimiter="\t", header=None, usecols=list(range(270))
-        )
         self.area = pd.read_csv(area_file, header=0, skiprows=[1, 2, 3])[
             ["FRAME", "AREA"]
         ]
+        if velocities_file:
+            self.velocities: Union[pd.DataFrame, None] = pd.read_csv(
+                velocities_file, delimiter="\t", header=None, usecols=list(range(270))
+            )
+        else:
+            self.velocities = None
 
         # set plotting params
         self._scatter_size = 1
@@ -260,6 +265,8 @@ class PescoidVisualizer:
 
     def plot_single_line_velocity(self, index: int) -> None:
         """Make a line plot of velocities at a given index"""
+        if self.velocities is None:
+            raise ValueError("No velocity data provided")
         data = self.velocities.iloc[index]
         fix, ax = plt.subplots()
 
@@ -302,6 +309,8 @@ class PescoidVisualizer:
         Arguments:
             indexes: List of indexes to plot
         """
+        if self.velocities is None:
+            raise ValueError("No velocity data provided")
         num_plots = len(indexes)
         fig, axs = plt.subplots(
             num_plots, 1, constrained_layout=True, sharex=True, sharey=True
